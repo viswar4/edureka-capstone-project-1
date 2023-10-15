@@ -9,7 +9,7 @@ pipeline{
     stage('Build Artifact - Maven') {
       steps {
         sh "mvn clean package -DskipTests=true"
-        archive 'target/*.jar'
+        archive 'target/*.war'
       }
     }
 
@@ -17,7 +17,14 @@ pipeline{
         steps {
         sh "mvn test"
         }
-    }
     
+    post {
+            success {
+                junit 'target/surefire-reports/*.xml'
+                jacoco execPattern: 'target/jacoco.exec'
+            }
+        }
+
     }
+}
 }
