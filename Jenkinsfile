@@ -65,7 +65,7 @@ pipeline{
     stage('Trivy Docker image scan'){
         steps{
             script{
-                sh 'trivy --severity MEDIUM,HIGH,CRITICAL $DOCKER_IMAGE'
+                sh 'trivy image $DOCKER_IMAGE --severity HIGH,MEDIUM,CRITICAL'
             }
         }
     }
