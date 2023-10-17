@@ -65,7 +65,13 @@ pipeline{
     stage('Trivy Docker image scan'){
         steps{
             script{
-                sh 'trivy image $DOCKER_IMAGE --severity HIGH,MEDIUM,CRITICAL'
+                sh 'trivy image --exit-code 1 --no-progress $DOCKER_IMAGE --severity HIGH,MEDIUM,CRITICAL'
+
+                if ($? != 0){
+                    error "Build failed"
+                }
+
+
             }
         }
     }
