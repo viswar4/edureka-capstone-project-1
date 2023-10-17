@@ -5,8 +5,8 @@ pipeline{
     }
     environment{
         DOCKER_HUB_CREDENTIALS = 'dockerhub'
-        DOCKER_IMAGE_NAME = 'viswar4/edueka-project1'
-        DOCKER_IMAGE_TAG = '${BUILD_NUMBER}'
+        DOCKER_IMAGE_NAME = 'viswar4/edureka-project1'
+        DOCKER_IMAGE_TAG = "${env.BUILD_ID}"
     }
 
     stages{
@@ -60,5 +60,17 @@ pipeline{
                 }
                 }
         }
+    
+    stage('Trivy Docker image scan'){
+        steps{
+            script{
+                def trivyScanResult = sh(script: "trivy --exit-code 0 $(docker.Image)", returnStatus: true )
+                if (trivyScanResult !=0){
+                    error "Trivy scan failed"
+                }
+            }
+        }
+    }
+    
     }
 }
