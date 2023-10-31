@@ -52,7 +52,7 @@ pipeline{
     stage('Run Ansible playbook'){
         steps{
             script {
-                ansiblePlaybook extras: '${DOCKER_IMAGE_TAG}', installation: 'ansible', playbook: 'dockerbuildandpush.yml' 
+                ansiblePlaybook extras: '-e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG}', installation: 'ansible', playbook: 'dockerbuildandpush.yml' 
             }
         }
     }
