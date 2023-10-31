@@ -45,11 +45,19 @@ pipeline{
         steps{
             timeout(time: 1, unit: 'HOURS') {
                 waitForQualityGate abortPipeline: true
+            }
         }
     }
-}
 
-    stage('Docker image build and push to dockerhub'){
+    stage('Run Ansible playbook'){
+        steps{
+            script {
+                ansiblePlaybook extras: '${DOCKER_IMAGE_TAG}', installation: 'ansible', playbook: 'dockerbuildandpush.yml' 
+            }
+        }
+    }
+
+    /*stage('Docker image build and push to dockerhub'){
         steps{
                 script {
                     dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}", "-f Dockerfile .")
@@ -69,7 +77,7 @@ pipeline{
 //Trivy image scan will fail as there are lots of vulnerabilities in the JAR. we can either skip this or set exit code to 0 for build to show success
             }
         }
-    }
+    }*/
     
     }
 }

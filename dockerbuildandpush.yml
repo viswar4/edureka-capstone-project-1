@@ -1,0 +1,11 @@
+---
+- name: To create docker image and push to dockerhub
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Build Docker Image
+      docker_image:
+        name: viswar4/capstone1:{{ DOCKER_IMAGE_TAG }}
+        build:
+          path: /root/edureka/edureka-capstone-project-1/
+        source: build
