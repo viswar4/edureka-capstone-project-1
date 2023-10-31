@@ -8,6 +8,7 @@ pipeline{
         DOCKER_IMAGE_NAME = 'viswar4/edureka-project1'
         DOCKER_IMAGE_TAG = "${env.BUILD_ID}"
         DOCKER_IMAGE = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+        WORKSPACE="${env.WORKSPACE}"
            }
 
     stages{
@@ -52,7 +53,7 @@ pipeline{
     stage('Run Ansible playbook'){
         steps{
             script {
-                ansiblePlaybook extras: '-e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG}', installation: 'ansible', playbook: 'dockerbuildandpush.yml' 
+                ansiblePlaybook extras: '-e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} -e WORKSPACE=${WORKSPACE}', installation: 'ansible', playbook: 'dockerbuildandpush.yml' 
             }
         }
     }
