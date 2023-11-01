@@ -9,6 +9,7 @@ pipeline{
         DOCKER_IMAGE_TAG = "${env.BUILD_ID}"
         DOCKER_IMAGE = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
         WORKSPACE="${env.WORKSPACE}"
+        VAULT_PASSWORD = credentials('ansiblevault')
            }
 
     stages{
@@ -53,9 +54,15 @@ pipeline{
     stage('Run Ansible playbook'){
         steps{
             script {
-                ansiblePlaybook extras: '-e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} -e WORKSPACE=${WORKSPACE}', installation: 'ansible', playbook: 'dockerbuildandpush.yml' 
+                withCredentials([string(credentialsId: 'ansiblevault', variable: 'VAULT_PASSWORD')]){
+                ansiblePlaybook extras: '-e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} -e WORKSPACE=${WORKSPACE}', 
+                installation: 'ansible', 
+                playbook: 'dockerbuildandpush.yml',
+                vaultCredentialsId: 'ansiblevault',
+                vaultCredentialsPasswordVariable: 'VAULT_PASSWORD'
             }
         }
+    }
     }
 
     /*stage('Docker image build and push to dockerhub'){
