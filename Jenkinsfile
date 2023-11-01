@@ -54,15 +54,14 @@ pipeline{
     stage('Run Ansible playbook'){
         steps{
             script {
-                withCredentials([string(credentialsId: 'ansiblevault', variable: 'VAULT_PASSWORD')]){
+                //withCredentials([string(credentialsId: 'ansiblevault', variable: 'VAULT_PASSWORD')]){
                 ansiblePlaybook extras: '-e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} -e WORKSPACE=${WORKSPACE}', 
                 installation: 'ansible', 
                 playbook: 'dockerbuildandpush.yml',
                 vaultCredentialsId: 'ansiblevault',
-                vaultCredentialsPasswordVariable: 'VAULT_PASSWORD'
+                //vaultCredentialsPasswordVariable: 'VAULT_PASSWORD'
             }
         }
-    }
     }
 
     /*stage('Docker image build and push to dockerhub'){
