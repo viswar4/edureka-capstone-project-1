@@ -53,7 +53,7 @@ pipeline{
     stage('Run Ansible playbook'){
         steps{
             script {
-                ansiblePlaybook extras: '-e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} -e WORKSPACE=${WORKSPACE} -e DOCKER_HUB_CREDENTIALS=${DOCKER_HUB_CREDENTIALS}', installation: 'ansible', playbook: 'dockerbuildandpush.yml' 
+                ansiblePlaybook extras: '-e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} -e WORKSPACE=${WORKSPACE}', installation: 'ansible', playbook: 'dockerbuildandpush.yml' 
             }
         }
     }

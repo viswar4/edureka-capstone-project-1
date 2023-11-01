@@ -3,8 +3,14 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Login to Dockerhub 
-      command: docker login -u viswar4 -p {{ DOCKER_HUB_CREDENTIALS }}
+    - name: Include credentials from vault
+      include_vars:
+        file: docker_credentials.yml
+        name: docker_credentials
+    - name: Login to Dockerhub
+      docker_login:
+        username: "{{ docker_credentials.docker_username }}"
+        password: "{{ docker_credentials.docker_password }}"
     - name: Build and Push Docker Image
       docker_image:
         name: viswar4/capstone1:{{ DOCKER_IMAGE_TAG }}
@@ -15,4 +21,3 @@
     - name: Logout out of Dockerhub
       docker_login:
         state: absent
-      
