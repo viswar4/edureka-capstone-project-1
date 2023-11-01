@@ -51,7 +51,7 @@ pipeline{
         }
     }
 
-    stage('Run Ansible playbook'){
+    stage('Run Ansible playbook to login,build and push image to Dockerhub and logout'){
         steps{
                 ansiblePlaybook extras: '-e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} -e WORKSPACE=${WORKSPACE}', 
                 installation: 'ansible', 
