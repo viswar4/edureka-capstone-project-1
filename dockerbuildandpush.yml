@@ -7,5 +7,5 @@
       docker_image:
         name: viswar4/capstone1:{{ DOCKER_IMAGE_TAG }}
         build:
-          path: /root/edureka/edureka-capstone-project-1/
+          path: "{{ WORKSPACE }}"
         source: build
