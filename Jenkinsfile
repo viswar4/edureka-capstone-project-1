@@ -59,5 +59,6 @@ pipeline{
                 vaultCredentialsId: 'ansiblevault'
             }
     }
+
     }
 }

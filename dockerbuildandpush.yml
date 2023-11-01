@@ -13,7 +13,7 @@
         password: "{{ docker_credentials.docker_password }}"
     - name: Build and Push Docker Image
       docker_image:
-        name: viswar4/capstone1:{{ DOCKER_IMAGE_TAG }}
+        name: viswar4/edureka-capstone-project1:{{ DOCKER_IMAGE_TAG }}
         build:
           path: "{{ WORKSPACE }}"
         source: build
