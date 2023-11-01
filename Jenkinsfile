@@ -53,13 +53,10 @@ pipeline{
 
     stage('Run Ansible playbook'){
         steps{
-            script {
                 ansiblePlaybook extras: '-e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} -e WORKSPACE=${WORKSPACE}', 
                 installation: 'ansible', 
                 playbook: 'dockerbuildandpush.yml',
-                vaultCredentialsId: 'ansiblevault',
+                vaultCredentialsId: 'ansiblevault'
             }
-        }
     }
     }
-}
