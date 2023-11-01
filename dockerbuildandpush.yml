@@ -3,9 +3,20 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Build Docker Image
+    - name: Login to Dockerhub 
+      docker_login:
+          registry_url: https://index.docker.io/v1/
+          state: present
+          username: viswar4
+          password: "{{ DOCKER_HUB_CREDENTIALS }}"
+    - name: Build and Push Docker Image
       docker_image:
         name: viswar4/capstone1:{{ DOCKER_IMAGE_TAG }}
         build:
           path: "{{ WORKSPACE }}"
         source: build
+        push: true
+    - name: Logout out of Dockerhub
+      docker_login:
+        state: absent
+      
