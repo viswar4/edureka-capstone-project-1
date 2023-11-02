@@ -9,6 +9,8 @@ pipeline{
         DOCKER_IMAGE_TAG = "${env.BUILD_ID}"
         DOCKER_IMAGE = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
         WORKSPACE="${env.WORKSPACE}"
+        aws_region= "ap-south-1"
+        eks_cluster_name= "edureka-demo"
         VAULT_PASSWORD = credentials('ansiblevault')
            }
 
@@ -59,6 +61,14 @@ pipeline{
                 vaultCredentialsId: 'ansiblevault'
             }
     }
-
+    
+    stage('Run Ansible playbook to create deploy, service and deploy to Kubernetes Cluster'){
+        steps{
+                ansiblePlaybook extras: '-e aws_region=${aws_region} -e eks_cluster_name=${eks_cluster_name} -e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} -e WORKSPACE=${WORKSPACE}'
+                installation: 'ansible', 
+                playbook: 'deploytokubernetes.yaml',
+                
+            }
+    }
     }
 }

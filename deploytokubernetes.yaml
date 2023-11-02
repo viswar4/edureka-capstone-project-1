@@ -1,0 +1,56 @@
+---
+- name: Deploy to Kubernetes Cluster
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+  - name: Get kubeconfig file 
+    command: "eksctl utils write-kubeconfig --region {{ aws_region }} --cluster {{ eks_cluster_name }}"
+    register: eksctl_output
+    ignore_errors: true
+
+  - name: Create Kubernetes Deployment
+    k8s:
+      state: present
+      kubeconfig: "{{ eksctl_output.stdout }}"
+      definition:
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: abctechnologies-deployment
+          namespace: default
+          labels:
+            app: abctechnologies
+        spec:
+            replicas: 2
+            selector:
+              matchLabels:
+                app: abctechnologies
+            template:
+              metadata:
+                labels:
+                  app: abctechnologies
+              spec:
+                containers:
+                - name: abctechnologies
+                  image: viswar4/edureka-capstone-project1:{{ DOCKER_IMAGE_TAG }}
+                  ports:
+                  - containerPort: 8080
+  - name: Create Kubernetes Service
+    k8s:
+      state: present
+      kubeconfig: "{{ eksctl_output.stdout }}"
+      definition:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: abctechnologies-service
+          namespace: default
+        spec:
+          selector:
+            app: abctechnologies
+          ports:
+          - protocol: TCP
+            port: 8080
+            targetPort: 8080
+          type: NodePort
