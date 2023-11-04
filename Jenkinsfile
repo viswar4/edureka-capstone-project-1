@@ -4,7 +4,6 @@ pipeline{
         maven 'maven'
     }
     environment{
-        DOCKER_HUB_CREDENTIALS = 'dockerhub'
         DOCKER_IMAGE_NAME = 'viswar4/edureka-project1'
         DOCKER_IMAGE_TAG = "${env.BUILD_ID}"
         DOCKER_IMAGE = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
