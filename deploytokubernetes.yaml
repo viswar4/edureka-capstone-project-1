@@ -6,13 +6,12 @@
   tasks:
   - name: Get kubeconfig file 
     command: "eksctl utils write-kubeconfig --region {{ aws_region }} --cluster {{ eks_cluster_name }}"
-    register: eksctl_output
     ignore_errors: true
 
   - name: Create Kubernetes Deployment
     k8s:
       state: present
-      kubeconfig: "{{ eksctl_output.stdout }}"
+      kubeconfig: "/home/ec2-user/.kube/config"
       definition:
         apiVersion: apps/v1
         kind: Deployment
@@ -39,7 +38,7 @@
   - name: Create Kubernetes Service
     k8s:
       state: present
-      kubeconfig: "{{ eksctl_output.stdout }}"
+      kubeconfig: "/home/ec2-user/.kube/config"
       definition:
         apiVersion: v1
         kind: Service
