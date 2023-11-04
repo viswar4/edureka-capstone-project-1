@@ -61,7 +61,7 @@ pipeline{
             }
     }
     
-    stage('Run Ansible playbook to create deploy, service and deploy to Kubernetes Cluster'){
+    stage('Run Ansible playbook to create deployment, service and deploy to EKS Cluster'){
         steps{
                 ansiblePlaybook extras: '-e aws_region=${aws_region} -e eks_cluster_name=${eks_cluster_name} -e DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG} -e WORKSPACE=${WORKSPACE}',
                 installation: 'ansible', 
