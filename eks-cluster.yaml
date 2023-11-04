@@ -1,0 +1,26 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: edureka-demo
+  region: ap-south-1
+
+vpc:
+  id: "vpc-04ef18fe5dfe03d9e"
+  cidr: "172.31.0.0/16"
+  subnets:
+    public:
+      aps1-az2: { id: subnet-0f1eebf74811d187c }
+      aps1-az1: { id: subnet-0639d836429d9568a }
+
+managedNodeGroups:
+  - name: abctechnologies
+    instanceType: t3.small
+    labels: { role: builders }
+    minSize: 2
+    maxSize: 2
+    ssh:
+      allow: true
+      publicKeyName: edureka-project
+    tags:
+      Name: project
