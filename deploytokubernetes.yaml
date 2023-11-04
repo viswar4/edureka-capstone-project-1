@@ -11,6 +11,7 @@
   - name: Create Kubernetes Deployment
     k8s:
       state: present
+      force: true
       kubeconfig: "/home/ec2-user/.kube/config"
       definition:
         apiVersion: apps/v1
