@@ -6,4 +6,4 @@ CI/CD using Jenkins pipeline to build/compile and test Java project using Maven.
 Deploy using ansible to a kubernetes cluster and monitor all components using Prometheus/Grafana.
 
 Tools Used:
-Git, Jenkins, Sonarqube, Docker, Ansible, Kubernetes, Prometheus/Grafana
+Git, Maven,Jenkins, Sonarqube, Docker, Ansible, Kubernetes, Prometheus/Grafana
